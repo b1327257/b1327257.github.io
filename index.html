@@ -767,9 +767,18 @@
       max-width: 640px;
       width: 100%;
       max-height: 90vh;
+      max-height: 90dvh;
       display: flex;
       flex-direction: column;
       box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    .modal-card form {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
       overflow: hidden;
     }
 
@@ -781,14 +790,19 @@
       justify-content: space-between;
       font-size: 16px;
       font-weight: 800;
+      flex-shrink: 0;
     }
 
     .modal-body {
       padding: 18px 20px;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
       display: flex;
       flex-direction: column;
       gap: 14px;
+      flex: 1 1 auto;
+      min-height: 0;
     }
 
     .modal-footer {
@@ -799,6 +813,8 @@
       justify-content: flex-end;
       gap: 8px;
       flex-wrap: wrap;
+      flex-shrink: 0;
+      background: var(--bg-surface);
     }
 
     .form-grid {
@@ -933,6 +949,22 @@
       }
       .apps-grid-standard {
         grid-template-columns: 1fr;
+      }
+      .modal-backdrop {
+        padding: 10px;
+      }
+      .modal-card {
+        max-height: 94dvh;
+        border-radius: var(--radius-lg);
+      }
+      .modal-header {
+        padding: 12px 16px;
+      }
+      .modal-body {
+        padding: 14px 16px;
+      }
+      .modal-footer {
+        padding: 10px 16px;
       }
     }
   </style>
