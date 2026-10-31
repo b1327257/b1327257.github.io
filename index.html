@@ -1,0 +1,2596 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="マイアプリ" />
+  <meta name="theme-color" id="metaThemeColor" content="#ffffff" />
+  <link rel="icon" id="dynamicFavicon" href="data:," />
+  <link rel="apple-touch-icon" id="dynamicTouchIcon" href="data:," />
+  <title>マイアプリ</title>
+  <style>
+    :root {
+      --bg-primary: #f1f5f9;
+      --bg-surface: #ffffff;
+      --bg-surface-alt: #f8fafc;
+      --bg-elevated: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --accent-soft: #eff6ff;
+      --accent-text: #1d4ed8;
+      --amber: #d97706;
+      --amber-soft: #fef3c7;
+      --emerald: #059669;
+      --emerald-soft: #d1fae5;
+      --rose: #e11d48;
+      --rose-soft: #ffe4e6;
+      --purple: #7c3aed;
+      --purple-soft: #ede9fe;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.14);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #0b1120;
+      --bg-surface: #1e293b;
+      --bg-surface-alt: #162032;
+      --bg-elevated: #263449;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+      --border-strong: #475569;
+      --accent: #3b82f6;
+      --accent-hover: #60a5fa;
+      --accent-soft: rgba(59, 130, 246, 0.16);
+      --accent-text: #93c5fd;
+      --amber: #f59e0b;
+      --amber-soft: rgba(245, 158, 11, 0.16);
+      --emerald: #10b981;
+      --emerald-soft: rgba(16, 185, 129, 0.16);
+      --rose: #f43f5e;
+      --rose-soft: rgba(244, 63, 94, 0.18);
+      --purple: #a78bfa;
+      --purple-soft: rgba(167, 139, 250, 0.16);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+      --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45);
+      --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    /* Sticky Header */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      padding-top: env(safe-area-inset-top, 0px);
+    }
+
+    .header-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 12px 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      box-shadow: var(--shadow-sm);
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      font-size: 17px;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 38px;
+      padding: 0 13px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface-alt);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      color: var(--accent-text);
+      background: var(--accent-soft);
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+      color: #ffffff;
+    }
+
+    .btn-danger {
+      background: var(--rose-soft);
+      border-color: var(--rose);
+      color: var(--rose);
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background: var(--rose);
+      color: #ffffff;
+    }
+
+    .btn-sm {
+      height: 32px;
+      padding: 0 10px;
+      font-size: 12px;
+    }
+
+    .btn-icon {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border-radius: 8px;
+    }
+
+    /* Main Container */
+    .main-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 18px 18px 64px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Search & View Mode Control Bar */
+    .toolbar-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .toolbar-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1 1 260px;
+      min-width: 200px;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 40px;
+      padding: 0 34px 0 36px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface-alt);
+      color: var(--text-primary);
+      font-size: 14px;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: var(--bg-surface);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 14px;
+      pointer-events: none;
+    }
+
+    .search-clear-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 14px;
+      padding: 4px;
+      display: none;
+    }
+
+    .toolbar-controls {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .select-control {
+      height: 40px;
+      padding: 0 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface-alt);
+      color: var(--text-primary);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .view-switcher {
+      display: inline-flex;
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .view-mode-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .view-mode-btn.active {
+      background: var(--bg-surface);
+      color: var(--accent-text);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Horizontal Scrollable Category Bar */
+    .category-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: thin;
+    }
+
+    .category-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface-alt);
+      color: var(--text-secondary);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .category-pill:hover {
+      border-color: var(--accent);
+    }
+
+    .category-pill.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+    }
+
+    .cat-count {
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.08);
+    }
+
+    .category-pill.active .cat-count {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+    }
+
+    /* Active Tag Filter Banner */
+    .active-filter-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .active-tag-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-text);
+      border: 1px solid var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Pinned Quick Access Shelf */
+    .pinned-shelf {
+      background: linear-gradient(135deg, var(--accent-soft), var(--bg-surface));
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .shelf-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--accent-text);
+    }
+
+    .pinned-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 10px;
+    }
+
+    .pinned-mini-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: transform 0.12s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .pinned-mini-card:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* App Views: 1. Standard Grid, 2. Compact Tile Grid, 3. Category Accordion */
+    .apps-grid-standard {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 14px;
+    }
+
+    .apps-grid-compact {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .app-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .app-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+
+    .app-card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .app-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 800;
+      color: #ffffff;
+      flex-shrink: 0;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .app-icon-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .app-icon-box.sm {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      font-size: 18px;
+    }
+
+    .app-main-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .app-badges-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .cat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--accent-soft);
+      color: var(--accent-text);
+    }
+
+    .tag-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 10.5px;
+      font-weight: 600;
+      background: var(--bg-surface-alt);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+
+    .tag-badge:hover, .tag-badge.active {
+      border-color: var(--accent);
+      color: var(--accent-text);
+      background: var(--accent-soft);
+    }
+
+    .app-title {
+      font-size: 15.5px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 0 0 4px 0;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .app-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .app-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .app-path-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 150px;
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pin-btn {
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface-alt);
+      color: var(--text-muted);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+
+    .pin-btn:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .pin-btn.pinned {
+      background: var(--amber-soft);
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .launch-btn {
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: none;
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.15s;
+    }
+
+    .launch-btn:hover {
+      background: var(--accent-hover);
+    }
+
+    /* Compact Card Style */
+    .app-card-compact {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 11px 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.14s ease;
+    }
+
+    .app-card-compact:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .compact-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .compact-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .compact-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Category Accordion Group */
+    .accordion-group {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .accordion-header {
+      width: 100%;
+      padding: 13px 18px;
+      background: var(--bg-surface-alt);
+      border: none;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .accordion-body {
+      padding: 14px;
+    }
+
+    .accordion-group.collapsed .accordion-body {
+      display: none;
+    }
+
+    .accordion-group.collapsed .accordion-header {
+      border-bottom: none;
+    }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      max-width: 640px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .modal-body {
+      padding: 18px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .modal-footer {
+      padding: 13px 20px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-control {
+      padding: 9px 11px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface-alt);
+      color: var(--text-primary);
+      font-size: 13.5px;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: var(--bg-surface);
+    }
+
+    .tag-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 4px;
+    }
+
+    .tag-suggest-btn {
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface-alt);
+      color: var(--text-secondary);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .tag-suggest-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent-text);
+      background: var(--accent-soft);
+    }
+
+    /* Category Manager List */
+    .cat-manage-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .cat-manage-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface-alt);
+      flex-wrap: wrap;
+    }
+
+    .color-dot-picker {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid var(--border-strong);
+      padding: 2px;
+      cursor: pointer;
+      background: var(--bg-surface);
+    }
+
+    .empty-box {
+      text-align: center;
+      padding: 42px 20px;
+      color: var(--text-muted);
+      background: var(--bg-surface);
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 400;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 11px 16px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: var(--shadow-lg);
+    }
+
+    @media (max-width: 640px) {
+      .header-inner {
+        padding: 10px 14px;
+      }
+      .main-container {
+        padding: 14px 14px 56px 14px;
+      }
+      .apps-grid-standard {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-wrap" id="brandResetFilterBtn" title="すべて表示">
+        <div class="brand-logo" id="portalLogoIcon">🏠</div>
+        <div>
+          <h1 class="brand-title" id="portalTitleText">マイアプリ</h1>
+          <p class="brand-sub" id="portalSubText" style="display: none;"></p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-primary" id="btnOpenAddApp">
+          <span>＋ アプリを追加</span>
+        </button>
+        <button type="button" class="btn" id="btnOpenCatManager">
+          <span>📁 カテゴリ編集</span>
+        </button>
+        <button type="button" class="btn" id="btnOpenDataModal">
+          <span>💾 バックアップ・設定</span>
+        </button>
+        <button type="button" class="btn" id="btnToggleTheme" title="ダークモード切替">
+          <span id="themeToggleIcon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-container">
+
+    <!-- Pinned Quick Access Shelf (Auto-hidden if no pinned apps) -->
+    <section class="pinned-shelf" id="pinnedShelfSection" style="display: none;">
+      <div class="shelf-header">
+        <span>★ ピン留め</span>
+        <span id="pinnedCountLabel" style="font-size: 11.5px; font-weight: 600;">0件</span>
+      </div>
+      <div class="pinned-grid" id="pinnedGridContainer"></div>
+    </section>
+
+    <!-- Search, Filter, Sort & View Density Toolbar -->
+    <section class="toolbar-card" aria-label="検索・表示切替ツールバー">
+      <div class="toolbar-top">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="search" id="searchInput" class="search-input" placeholder="検索 ( / キー)..." />
+          <button type="button" id="btnClearSearch" class="search-clear-btn" title="検索クリア">✕</button>
+        </div>
+
+        <div class="toolbar-controls">
+          <select id="sortSelect" class="select-control" title="並び替え">
+            <option value="order">並び順：カスタム</option>
+            <option value="popular">並び順：よく使う順</option>
+            <option value="recent">並び順：最近使った順</option>
+            <option value="name">並び順：名前順</option>
+            <option value="newest">並び順：追加順</option>
+          </select>
+
+          <div class="view-switcher" role="group" aria-label="表示モード切替">
+            <button type="button" class="view-mode-btn active" data-view-mode="standard" title="カード表示">
+              💳 カード
+            </button>
+            <button type="button" class="view-mode-btn" data-view-mode="compact" title="コンパクト表示">
+              ⚡ コンパクト
+            </button>
+            <button type="button" class="view-mode-btn" data-view-mode="accordion" title="カテゴリ別表示">
+              📂 カテゴリ別
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="category-bar-wrap" id="categoryFilterBar"></div>
+    </section>
+
+    <!-- App Count & Active Tag Filter Status -->
+    <div class="active-filter-row">
+      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+        <span id="showingSummaryText">0 件</span>
+        <button type="button" class="active-tag-chip" id="activeTagFilterChip" style="display: none;">
+          <span id="activeTagFilterText">#タグ</span>
+          <span>✕</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Apps Container -->
+    <section id="appsDisplayContainer"></section>
+
+  </main>
+
+  <!-- ================= MODAL 1: ADD / EDIT APP ================= -->
+  <div class="modal-backdrop" id="appFormModal" role="dialog" aria-modal="true" aria-labelledby="appModalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span id="appModalTitle">アプリの追加・編集</span>
+        <button type="button" class="btn btn-sm" id="btnCloseAppModal">✕ 閉じる</button>
+      </div>
+      <form id="appForm">
+        <div class="modal-body">
+          <input type="hidden" id="appFormId" value="" />
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="appFormTitle">
+                <span>アプリ名 <span style="color: var(--rose);">*</span></span>
+              </label>
+              <input type="text" id="appFormTitle" class="form-control" required placeholder="例：レシピノート" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="appFormCategory">
+                <span>カテゴリ <span style="color: var(--rose);">*</span></span>
+              </label>
+              <select id="appFormCategory" class="form-control"></select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="appFormUrl">
+              <span>ファイル名 または URL <span style="color: var(--rose);">*</span></span>
+              <span id="urlTypeBadge" style="font-size: 11px; color: var(--text-muted); font-weight: 600;"></span>
+            </label>
+            <input type="text" id="appFormUrl" class="form-control" required placeholder="例：recipe.html / ./app/ / https://..." />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="appFormDesc">メモ</label>
+            <textarea id="appFormDesc" class="form-control" rows="2" placeholder="任意"></textarea>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="appFormTags">タグ（カンマ区切り）</label>
+              <input type="text" id="appFormTags" class="form-control" placeholder="例：料理, 毎日" />
+              <div class="tag-suggestions" id="existingTagsSuggestions"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="appFormTarget">開き方</label>
+              <select id="appFormTarget" class="form-control">
+                <option value="_self">同じタブで開く</option>
+                <option value="_blank">新しいタブで開く</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="appFormEmoji">アイコン</label>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <input type="text" id="appFormEmoji" class="form-control" value="📘" style="max-width: 80px; text-align: center; font-size: 18px;" />
+                <input type="color" id="appFormColor" class="color-dot-picker" value="#2563eb" title="アイコン背景色" />
+                <label style="display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 700; cursor: pointer; margin-left: auto;">
+                  <input type="checkbox" id="appFormPinned" /> ★ ピン留め
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="appFormImageInput">画像アイコン</label>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <input type="file" id="appFormImageInput" accept="image/*" class="form-control" style="font-size: 11.5px; padding: 6px;" />
+                <button type="button" class="btn btn-sm" id="btnClearAppImage" style="display: none;">削除</button>
+              </div>
+              <div id="appFormImagePreviewWrap" style="display: none; margin-top: 4px;">
+                <img id="appFormImagePreview" src="" alt="アイコンプレビュー" style="width: 44px; height: 44px; border-radius: 10px; object-fit: cover; border: 1px solid var(--border-color);" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Delete confirmation box inside modal -->
+          <div id="appDeleteConfirmBox" style="display: none; padding: 10px 12px; border-radius: var(--radius-sm); background: var(--rose-soft); border: 1px solid var(--rose);">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
+              <span style="font-size: 12.5px; font-weight: 700; color: var(--rose);">このアプリを削除しますか？</span>
+              <div style="display: flex; gap: 6px;">
+                <button type="button" class="btn btn-danger btn-sm" id="btnConfirmDeleteApp">削除する</button>
+                <button type="button" class="btn btn-sm" id="btnCancelDeleteApp">キャンセル</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger btn-sm" id="btnDeleteAppInModal" style="display: none;">🗑️ 削除</button>
+          <button type="button" class="btn btn-sm" id="btnDuplicateApp" style="display: none;" title="複製して新規作成">📋 複製</button>
+          <div style="display: flex; align-items: center; gap: 4px; margin-right: auto;" id="reorderBtnsWrap">
+            <button type="button" class="btn btn-sm" id="btnMoveAppUp" title="並び順を1つ前へ">↑ 前へ移動</button>
+            <span id="appOrderPositionLabel" style="font-size: 11.5px; color: var(--text-muted); font-weight: 700; padding: 0 4px;">1 / 1</span>
+            <button type="button" class="btn btn-sm" id="btnMoveAppDown" title="並び順を1つ後ろへ">↓ 後ろへ移動</button>
+          </div>
+          <button type="button" class="btn" id="btnCancelAppModal">キャンセル</button>
+          <button type="submit" class="btn btn-primary">💾 保存する</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MODAL 2: CATEGORY MANAGER ================= -->
+  <div class="modal-backdrop" id="catManagerModal" role="dialog" aria-modal="true" aria-labelledby="catModalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span id="catModalTitle">📁 カテゴリ編集</span>
+        <button type="button" class="btn btn-sm" id="btnCloseCatModal">✕ 閉じる</button>
+      </div>
+      <div class="modal-body">
+        <!-- Add New Category Row -->
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; background: var(--bg-surface-alt); padding: 10px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+          <input type="text" id="newCatIconInput" class="form-control" value="📂" style="width: 56px; text-align: center;" title="アイコン絵文字" />
+          <input type="text" id="newCatNameInput" class="form-control" placeholder="新しいカテゴリ名" style="flex: 1; min-width: 160px;" />
+          <input type="color" id="newCatColorInput" class="color-dot-picker" value="#2563eb" title="テーマカラー" />
+          <button type="button" class="btn btn-primary" id="btnAddCategory">＋ 追加</button>
+        </div>
+
+        <!-- Existing Categories List -->
+        <div class="cat-manage-list" id="catManageListContainer"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btnDoneCatModal">完了</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL 3: BACKUP & PORTAL SETTINGS ================= -->
+  <div class="modal-backdrop" id="dataSettingsModal" role="dialog" aria-modal="true" aria-labelledby="dataModalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span id="dataModalTitle">💾 バックアップ・設定</span>
+        <button type="button" class="btn btn-sm" id="btnCloseDataModal">✕ 閉じる</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="portalCustomTitleInput">ポータル名・アイコン</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="portalCustomIconInput" class="form-control" style="width: 60px; text-align: center; font-size: 18px;" value="🏠" />
+            <input type="text" id="portalCustomTitleInput" class="form-control" style="flex: 1;" value="マイアプリ" />
+            <button type="button" class="btn btn-primary" id="btnSavePortalTitle">変更</button>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 14px;">
+          <h4 style="font-size: 13.5px; margin: 0 0 10px 0;">GitHub Pages 用ファイル出力</h4>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <button type="button" class="btn btn-primary" id="btnExportBakedHtml">🌐 設定済みの index.html を保存</button>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 14px;">
+          <h4 style="font-size: 13.5px; margin: 0 0 10px 0;">JSONバックアップ・復元</h4>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <button type="button" class="btn" id="btnExportPortalJson">⬇️ バックアップを保存 (.json)</button>
+            <button type="button" class="btn" id="btnCopyPortalJson">📋 JSON文字列をコピー</button>
+            <label class="btn" for="inputImportPortalJson" style="cursor: pointer;">
+              ⬆️ JSONファイルから復元
+            </label>
+            <input type="file" id="inputImportPortalJson" accept=".json,application/json" style="display: none;" />
+            <button type="button" class="btn" id="btnTogglePasteJson">📝 JSON貼り付け復元</button>
+          </div>
+
+          <div id="pasteJsonBox" style="display: none; margin-top: 10px;">
+            <textarea id="pasteJsonTextarea" class="form-control" rows="4" placeholder="コピーしたJSON文字列を貼り付け..." style="width: 100%; font-family: ui-monospace, monospace; font-size: 12px;"></textarea>
+            <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px;">
+              <button type="button" class="btn btn-sm" id="btnCancelPasteJson">キャンセル</button>
+              <button type="button" class="btn btn-primary btn-sm" id="btnApplyPasteJson">復元する</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 14px;">
+          <h4 style="font-size: 13.5px; margin: 0 0 8px 0; color: var(--rose);">リセット</h4>
+          <button type="button" class="btn btn-danger btn-sm" id="btnRequestPortalReset">初期データに戻す</button>
+          <div id="portalResetConfirmBox" style="display: none; margin-top: 8px; padding: 10px; border-radius: var(--radius-sm); background: var(--rose-soft);">
+            <span style="font-size: 12px; font-weight: 700; color: var(--rose); display: block; margin-bottom: 6px;">初期状態に戻しますか？</span>
+            <div style="display: flex; gap: 8px;">
+              <button type="button" class="btn btn-danger btn-sm" id="btnConfirmPortalReset">はい、初期化する</button>
+              <button type="button" class="btn btn-sm" id="btnCancelPortalReset">キャンセル</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" id="btnCloseDataFooter">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script>
+    (function() {
+      "use strict";
+
+      /* =========================================================
+       * 1. 定数・初期設定・初期カテゴリ・初期アプリ定義
+       * ========================================================= */
+      var IDB_NAME = "AppPortalLauncherDB";
+      var IDB_VERSION = 1;
+      var IDB_STORE = "portal_state";
+      var STORAGE_KEY = "app_portal_launcher_state_v3";
+      var IMG_MAX_DIM = 800;
+      var IMG_QUALITY = 0.8;
+
+      /* __PORTAL_DEFAULTS_START__ */
+      var DEFAULT_SETTINGS = {
+        portalTitle: "マイアプリ",
+        portalIcon: "🏠",
+        theme: "",
+        viewMode: "standard",
+        sortBy: "order"
+      };
+
+      var DEFAULT_CATEGORIES = [
+        { id: "cat_exam", name: "学習", icon: "📖", color: "#2563eb" },
+        { id: "cat_subject", name: "レシピ・暮らし", icon: "🍳", color: "#059669" },
+        { id: "cat_work", name: "キッズ", icon: "🎈", color: "#d97706" },
+        { id: "cat_ref", name: "ツール", icon: "🛠️", color: "#7c3aed" }
+      ];
+
+      var DEFAULT_APPS = [];
+      /* __PORTAL_DEFAULTS_END__ */
+
+      var prefersDark = false;
+      try {
+        prefersDark = !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      } catch (e) {}
+
+      var state = {
+        portalTitle: DEFAULT_SETTINGS.portalTitle || "マイアプリ",
+        portalIcon: DEFAULT_SETTINGS.portalIcon || "🏠",
+        theme: DEFAULT_SETTINGS.theme || (prefersDark ? "dark" : "light"),
+        viewMode: DEFAULT_SETTINGS.viewMode || "standard",
+        selectedCategoryId: "ALL",
+        selectedTag: "",
+        searchQuery: "",
+        sortBy: DEFAULT_SETTINGS.sortBy || "order",
+        collapsedCats: {},
+        categories: [],
+        apps: [],
+        updatedAt: ""
+      };
+
+      var currentFormImageData = "";
+      var dbInstancePromise = null;
+
+      /* =========================================================
+       * 2. IndexedDB 永続化レイヤー（localStorage自動同期フォールバック付）
+       * ========================================================= */
+      function openPortalDB() {
+        if (dbInstancePromise) return dbInstancePromise;
+        dbInstancePromise = new Promise(function(resolve) {
+          if (!window.indexedDB) {
+            resolve(null);
+            return;
+          }
+          try {
+            var req = window.indexedDB.open(IDB_NAME, IDB_VERSION);
+            req.onupgradeneeded = function(e) {
+              var db = e.target.result;
+              if (!db.objectStoreNames.contains(IDB_STORE)) {
+                db.createObjectStore(IDB_STORE, { keyPath: "key" });
+              }
+            };
+            req.onsuccess = function(e) { resolve(e.target.result); };
+            req.onerror = function() { resolve(null); };
+          } catch (err) {
+            resolve(null);
+          }
+        });
+        return dbInstancePromise;
+      }
+
+      function idbLoadState() {
+        return openPortalDB().then(function(db) {
+          if (!db) return null;
+          return new Promise(function(resolve) {
+            try {
+              var tx = db.transaction(IDB_STORE, "readonly");
+              var req = tx.objectStore(IDB_STORE).get(STORAGE_KEY);
+              req.onsuccess = function() {
+                resolve(req.result ? req.result.value : null);
+              };
+              req.onerror = function() { resolve(null); };
+            } catch (e) {
+              resolve(null);
+            }
+          });
+        });
+      }
+
+      function idbSaveState(dataObj) {
+        return openPortalDB().then(function(db) {
+          if (!db) return;
+          return new Promise(function(resolve) {
+            try {
+              var tx = db.transaction(IDB_STORE, "readwrite");
+              tx.objectStore(IDB_STORE).put({ key: STORAGE_KEY, value: dataObj });
+              tx.oncomplete = function() { resolve(); };
+              tx.onerror = function() { resolve(); };
+            } catch (e) {
+              resolve();
+            }
+          });
+        });
+      }
+
+      function applyLoadedData(parsed) {
+        if (!parsed || typeof parsed !== "object") return false;
+        if (Array.isArray(parsed.categories) && parsed.categories.length > 0) {
+          state.categories = parsed.categories;
+        }
+        if (Array.isArray(parsed.apps)) {
+          state.apps = parsed.apps;
+        }
+        if (parsed.portalTitle) state.portalTitle = parsed.portalTitle;
+        if (parsed.portalIcon) state.portalIcon = parsed.portalIcon;
+        if (parsed.theme === "dark" || parsed.theme === "light") state.theme = parsed.theme;
+        if (parsed.viewMode) state.viewMode = parsed.viewMode;
+        if (parsed.sortBy) state.sortBy = parsed.sortBy;
+        if (parsed.collapsedCats && typeof parsed.collapsedCats === "object") {
+          state.collapsedCats = parsed.collapsedCats;
+        }
+        if (parsed.updatedAt) state.updatedAt = parsed.updatedAt;
+        return true;
+      }
+
+      function loadAllData() {
+        var lsData = null;
+        try {
+          var raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) lsData = JSON.parse(raw);
+        } catch (e) {}
+
+        if (lsData && applyLoadedData(lsData)) {
+          // Synchronously hydrated from localStorage
+        } else {
+          state.categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+          state.apps = JSON.parse(JSON.stringify(DEFAULT_APPS));
+        }
+
+        idbLoadState().then(function(idbData) {
+          if (idbData && Array.isArray(idbData.apps)) {
+            var idbTime = String(idbData.updatedAt || "");
+            var lsTime = String(state.updatedAt || "");
+            if (!lsData || idbTime >= lsTime) {
+              applyLoadedData(idbData);
+              applyThemeUI();
+              syncDocumentBranding();
+              renderAll();
+            }
+          } else if (lsData) {
+            idbSaveState(getSerializableState());
+          }
+        });
+      }
+
+      function getSerializableState() {
+        return {
+          portalTitle: state.portalTitle,
+          portalIcon: state.portalIcon,
+          theme: state.theme,
+          viewMode: state.viewMode,
+          sortBy: state.sortBy,
+          collapsedCats: state.collapsedCats,
+          categories: state.categories,
+          apps: state.apps,
+          updatedAt: state.updatedAt || new Date().toISOString()
+        };
+      }
+
+      function saveAllData() {
+        state.updatedAt = new Date().toISOString();
+        var payload = getSerializableState();
+        idbSaveState(payload);
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+        } catch (e) {}
+      }
+
+      /* =========================================================
+       * 3. Canvas API 画像自動縮小・圧縮 ＆ 動的アプリアイコン生成
+       * ========================================================= */
+      function compressImageFile(file) {
+        return new Promise(function(resolve, reject) {
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            var img = new Image();
+            img.onload = function() {
+              var w = img.width;
+              var h = img.height;
+              if (w > IMG_MAX_DIM || h > IMG_MAX_DIM) {
+                if (w >= h) {
+                  h = Math.round((h * IMG_MAX_DIM) / w);
+                  w = IMG_MAX_DIM;
+                } else {
+                  w = Math.round((w * IMG_MAX_DIM) / h);
+                  h = IMG_MAX_DIM;
+                }
+              }
+              var canvas = document.createElement("canvas");
+              canvas.width = w;
+              canvas.height = h;
+              var ctx = canvas.getContext("2d");
+              ctx.fillStyle = "#ffffff";
+              ctx.fillRect(0, 0, w, h);
+              ctx.drawImage(img, 0, 0, w, h);
+              resolve(canvas.toDataURL("image/jpeg", IMG_QUALITY));
+            };
+            img.onerror = function() { reject(new Error("Image load error")); };
+            img.src = e.target.result;
+          };
+          reader.onerror = function() { reject(new Error("File read error")); };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      function syncDocumentBranding() {
+        var title = state.portalTitle || "マイアプリ";
+        var icon = state.portalIcon || "🏠";
+        document.title = title;
+        var metaTitle = document.getElementById("metaAppTitle");
+        if (metaTitle) metaTitle.setAttribute("content", title);
+
+        try {
+          var canvas = document.createElement("canvas");
+          canvas.width = 180;
+          canvas.height = 180;
+          var ctx = canvas.getContext("2d");
+          var grad = ctx.createLinearGradient(0, 0, 180, 180);
+          grad.addColorStop(0, "#2563eb");
+          grad.addColorStop(1, "#7c3aed");
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.roundRect ? ctx.roundRect(0, 0, 180, 180, 40) : ctx.rect(0, 0, 180, 180);
+          ctx.fill();
+          ctx.font = "100px sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(icon, 90, 96);
+          var dataUrl = canvas.toDataURL("image/png");
+          var fav = document.getElementById("dynamicFavicon");
+          var touch = document.getElementById("dynamicTouchIcon");
+          if (fav) fav.href = dataUrl;
+          if (touch) touch.href = dataUrl;
+        } catch (e) {}
+      }
+
+      /* =========================================================
+       * 4. ユーティリティ＆アプリ起動処理
+       * ========================================================= */
+      function showToast(msg) {
+        var container = document.getElementById("toastContainer");
+        var el = document.createElement("div");
+        el.className = "toast";
+        el.textContent = msg;
+        container.appendChild(el);
+        setTimeout(function() {
+          if (el.parentNode) el.parentNode.removeChild(el);
+        }, 2600);
+      }
+
+      function escapeHtml(str) {
+        return String(str || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function getCategoryById(catId) {
+        return state.categories.find(function(c) { return c.id === catId; }) || {
+          id: "cat_other",
+          name: "未分類",
+          icon: "📁",
+          color: "#64748b"
+        };
+      }
+
+      function isExternalUrl(url) {
+        return /^https?:\/\//i.test(String(url || "").trim());
+      }
+
+      function launchApp(appId, forceNewTab) {
+        var app = state.apps.find(function(a) { return a.id === appId; });
+        if (!app) return;
+        app.launchCount = (Number(app.launchCount) || 0) + 1;
+        app.lastOpenedAt = new Date().toISOString();
+        saveAllData();
+        renderAll();
+
+        var url = (app.url || "").trim();
+        if (!url) {
+          showToast("リンク先が設定されていません");
+          return;
+        }
+        if (forceNewTab || app.target === "_blank") {
+          window.open(url, "_blank", "noopener,noreferrer");
+        } else {
+          window.location.href = url;
+        }
+      }
+
+      function togglePinApp(appId) {
+        var app = state.apps.find(function(a) { return a.id === appId; });
+        if (!app) return;
+        app.pinned = !app.pinned;
+        saveAllData();
+        renderAll();
+        showToast(app.pinned ? "★ ピン留めしました" : "ピン留めを解除しました");
+      }
+
+      function applyThemeUI() {
+        var metaTheme = document.getElementById("metaThemeColor");
+        if (state.theme === "dark") {
+          document.documentElement.setAttribute("data-theme", "dark");
+          document.getElementById("themeToggleIcon").textContent = "☀️";
+          if (metaTheme) metaTheme.setAttribute("content", "#1e293b");
+        } else {
+          document.documentElement.removeAttribute("data-theme");
+          document.getElementById("themeToggleIcon").textContent = "🌙";
+          if (metaTheme) metaTheme.setAttribute("content", "#ffffff");
+        }
+      }
+
+      function getAllUniqueTags() {
+        var map = {};
+        state.apps.forEach(function(app) {
+          if (Array.isArray(app.tags)) {
+            app.tags.forEach(function(t) {
+              var clean = String(t || "").trim();
+              if (clean) map[clean] = (map[clean] || 0) + 1;
+            });
+          }
+        });
+        return Object.keys(map).sort(function(a, b) { return map[b] - map[a]; });
+      }
+
+      /* =========================================================
+       * 5. 描画処理（ヘッダー・ピン留め・カテゴリバー・3種のビュー）
+       * ========================================================= */
+      function renderAll() {
+        document.getElementById("portalLogoIcon").textContent = state.portalIcon || "🏠";
+        document.getElementById("portalTitleText").textContent = state.portalTitle || "マイアプリ";
+        document.getElementById("sortSelect").value = state.sortBy || "order";
+
+        document.querySelectorAll(".view-mode-btn").forEach(function(btn) {
+          btn.classList.toggle("active", btn.getAttribute("data-view-mode") === state.viewMode);
+        });
+
+        var tagChip = document.getElementById("activeTagFilterChip");
+        if (state.selectedTag) {
+          tagChip.style.display = "inline-flex";
+          document.getElementById("activeTagFilterText").textContent = "#" + state.selectedTag;
+        } else {
+          tagChip.style.display = "none";
+        }
+
+        renderPinnedShelf();
+        renderCategoryBar();
+        renderAppsMain();
+      }
+
+      function getIconHtml(app, isSmall) {
+        var sizeClass = isSmall ? "app-icon-box sm" : "app-icon-box";
+        var bg = escapeHtml(app.color || "#2563eb");
+        if (app.imageData) {
+          return '<div class="' + sizeClass + '" style="background:' + bg + ';"><img src="' + app.imageData + '" alt="icon" /></div>';
+        }
+        return '<div class="' + sizeClass + '" style="background:' + bg + ';">' + escapeHtml(app.emoji || "📘") + '</div>';
+      }
+
+      function renderPinnedShelf() {
+        var pinnedApps = state.apps.filter(function(a) { return !!a.pinned; });
+        var section = document.getElementById("pinnedShelfSection");
+        var container = document.getElementById("pinnedGridContainer");
+        if (pinnedApps.length === 0) {
+          section.style.display = "none";
+          return;
+        }
+        section.style.display = "block";
+        document.getElementById("pinnedCountLabel").textContent = pinnedApps.length + "件";
+
+        container.innerHTML = pinnedApps.map(function(app) {
+          var cat = getCategoryById(app.categoryId);
+          return (
+            '<div class="pinned-mini-card" data-action="launch-app" data-id="' + escapeHtml(app.id) + '">' +
+              getIconHtml(app, true) +
+              '<div style="min-width:0; flex:1;">' +
+                '<div style="font-size:13px; font-weight:800; color:var(--text-primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' +
+                  escapeHtml(app.title) +
+                '</div>' +
+                '<div style="font-size:11px; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' +
+                  escapeHtml(cat.icon + " " + cat.name) +
+                '</div>' +
+              '</div>' +
+              '<span style="color:var(--accent-text); font-weight:800; font-size:14px;">›</span>' +
+            '</div>'
+          );
+        }).join("");
+      }
+
+      function renderCategoryBar() {
+        var bar = document.getElementById("categoryFilterBar");
+        var totalCount = state.apps.length;
+        var html =
+          '<button type="button" class="category-pill ' + (state.selectedCategoryId === "ALL" ? "active" : "") + '" data-cat-id="ALL">' +
+            '<span>すべて</span>' +
+            '<span class="cat-count">' + totalCount + '</span>' +
+          '</button>';
+
+        state.categories.forEach(function(cat) {
+          var count = state.apps.filter(function(a) { return a.categoryId === cat.id; }).length;
+          var isActive = state.selectedCategoryId === cat.id;
+          html +=
+            '<button type="button" class="category-pill ' + (isActive ? "active" : "") + '" data-cat-id="' + escapeHtml(cat.id) + '">' +
+              '<span>' + escapeHtml(cat.icon || "📁") + ' ' + escapeHtml(cat.name) + '</span>' +
+              '<span class="cat-count">' + count + '</span>' +
+            '</button>';
+        });
+
+        bar.innerHTML = html;
+      }
+
+      function getFilteredAndSortedApps() {
+        var q = (state.searchQuery || "").toLowerCase();
+        var filtered = state.apps.filter(function(app) {
+          if (state.selectedCategoryId !== "ALL" && app.categoryId !== state.selectedCategoryId) {
+            return false;
+          }
+          if (state.selectedTag) {
+            var appTags = Array.isArray(app.tags) ? app.tags : [];
+            if (appTags.indexOf(state.selectedTag) === -1) return false;
+          }
+          if (q) {
+            var cat = getCategoryById(app.categoryId);
+            var hay = [
+              app.title,
+              app.desc,
+              app.url,
+              cat.name,
+              Array.isArray(app.tags) ? app.tags.join(" ") : ""
+            ].join(" ").toLowerCase();
+            if (hay.indexOf(q) === -1) return false;
+          }
+          return true;
+        });
+
+        var sorted = filtered.slice();
+        if (state.sortBy === "popular") {
+          sorted.sort(function(a, b) { return (Number(b.launchCount) || 0) - (Number(a.launchCount) || 0); });
+        } else if (state.sortBy === "recent") {
+          sorted.sort(function(a, b) { return String(b.lastOpenedAt || "").localeCompare(String(a.lastOpenedAt || "")); });
+        } else if (state.sortBy === "name") {
+          sorted.sort(function(a, b) { return String(a.title || "").localeCompare(String(b.title || ""), "ja"); });
+        } else if (state.sortBy === "newest") {
+          sorted.sort(function(a, b) { return String(b.createdAt || "").localeCompare(String(a.createdAt || "")); });
+        }
+        return sorted;
+      }
+
+      function buildStandardCardHtml(app) {
+        var cat = getCategoryById(app.categoryId);
+        var tagsHtml = (Array.isArray(app.tags) ? app.tags : []).slice(0, 5).map(function(t) {
+          var isTagActive = state.selectedTag === t;
+          return '<button type="button" class="tag-badge ' + (isTagActive ? "active" : "") + '" data-action="filter-tag" data-tag="' + escapeHtml(t) + '">#' + escapeHtml(t) + '</button>';
+        }).join("");
+
+        return (
+          '<article class="app-card" data-action="launch-app" data-id="' + escapeHtml(app.id) + '">' +
+            '<div>' +
+              '<div class="app-card-top">' +
+                getIconHtml(app, false) +
+                '<div class="app-main-info">' +
+                  '<div class="app-badges-row">' +
+                    '<span class="cat-badge" style="background:' + escapeHtml(cat.color || "#2563eb") + '18; color:' + escapeHtml(cat.color || "#2563eb") + ';">' +
+                      escapeHtml((cat.icon || "📁") + " " + cat.name) +
+                    '</span>' +
+                  '</div>' +
+                  '<h3 class="app-title">' + escapeHtml(app.title) + '</h3>' +
+                '</div>' +
+                '<button type="button" class="pin-btn ' + (app.pinned ? "pinned" : "") + '" data-action="toggle-pin" data-id="' + escapeHtml(app.id) + '" title="ピン留め">★</button>' +
+              '</div>' +
+              (app.desc ? '<p class="app-desc" style="margin-top:10px;">' + escapeHtml(app.desc) + '</p>' : '') +
+              (tagsHtml ? '<div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:8px;">' + tagsHtml + '</div>' : '') +
+            '</div>' +
+            '<div class="app-card-footer">' +
+              '<span class="app-path-hint" title="' + escapeHtml(app.url) + '">' + escapeHtml(app.url) + '</span>' +
+              '<div class="card-actions">' +
+                '<button type="button" class="btn btn-sm btn-icon" data-action="launch-new-tab" data-id="' + escapeHtml(app.id) + '" title="新しいタブで開く">↗</button>' +
+                '<button type="button" class="btn btn-sm" data-action="edit-app" data-id="' + escapeHtml(app.id) + '">編集</button>' +
+                '<button type="button" class="launch-btn" data-action="launch-app" data-id="' + escapeHtml(app.id) + '">開く ›</button>' +
+              '</div>' +
+            '</div>' +
+          '</article>'
+        );
+      }
+
+      function buildCompactCardHtml(app) {
+        var cat = getCategoryById(app.categoryId);
+        return (
+          '<div class="app-card-compact" data-action="launch-app" data-id="' + escapeHtml(app.id) + '">' +
+            '<div class="compact-left">' +
+              getIconHtml(app, true) +
+              '<div style="min-width:0; flex:1;">' +
+                '<div class="compact-title">' + escapeHtml(app.title) + '</div>' +
+                '<div class="compact-sub">' + escapeHtml(cat.icon + " " + cat.name) + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div style="display:flex; align-items:center; gap:4px; flex-shrink:0;">' +
+              '<button type="button" class="btn btn-sm btn-icon" data-action="edit-app" data-id="' + escapeHtml(app.id) + '" title="編集">⚙️</button>' +
+            '</div>' +
+          '</div>'
+        );
+      }
+
+      function renderAppsMain() {
+        var filtered = getFilteredAndSortedApps();
+        var container = document.getElementById("appsDisplayContainer");
+        document.getElementById("showingSummaryText").textContent = filtered.length + " 件";
+
+        if (state.apps.length === 0) {
+          container.innerHTML =
+            '<div class="empty-box">' +
+              '<p style="font-size:14.5px; font-weight:700; margin:0; color:var(--text-secondary);">まだアプリが登録されていません</p>' +
+              '<div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">' +
+                '<button type="button" class="btn btn-primary" data-action="empty-add-app">＋ アプリを追加</button>' +
+                '<button type="button" class="btn" data-action="empty-open-backup">💾 バックアップから復元</button>' +
+              '</div>' +
+            '</div>';
+          return;
+        }
+
+        if (filtered.length === 0) {
+          container.innerHTML =
+            '<div class="empty-box">' +
+              '<p style="font-size:14px; font-weight:700; margin:0;">該当するアプリがありません</p>' +
+              '<button type="button" class="btn btn-sm" data-action="reset-filters">絞り込みを解除</button>' +
+            '</div>';
+          return;
+        }
+
+        if (state.viewMode === "compact") {
+          container.innerHTML =
+            '<div class="apps-grid-compact">' +
+              filtered.map(buildCompactCardHtml).join("") +
+            '</div>';
+          return;
+        }
+
+        if (state.viewMode === "accordion") {
+          var groupsHtml = "";
+          var knownCatIds = {};
+          state.categories.forEach(function(cat) {
+            knownCatIds[cat.id] = true;
+            var catApps = filtered.filter(function(a) { return a.categoryId === cat.id; });
+            if (catApps.length === 0) return;
+            var isCollapsed = !!state.collapsedCats[cat.id];
+            groupsHtml +=
+              '<div class="accordion-group ' + (isCollapsed ? "collapsed" : "") + '">' +
+                '<button type="button" class="accordion-header" data-action="toggle-accordion" data-cat-id="' + escapeHtml(cat.id) + '">' +
+                  '<span>' + escapeHtml(cat.icon || "📁") + ' ' + escapeHtml(cat.name) + ' （' + catApps.length + '）</span>' +
+                  '<span>' + (isCollapsed ? "＋" : "ー") + '</span>' +
+                '</button>' +
+                '<div class="accordion-body">' +
+                  '<div class="apps-grid-standard">' +
+                    catApps.map(buildStandardCardHtml).join("") +
+                  '</div>' +
+                '</div>' +
+              '</div>';
+          });
+
+          var uncategorizedApps = filtered.filter(function(a) { return !knownCatIds[a.categoryId]; });
+          if (uncategorizedApps.length > 0) {
+            var isOtherCollapsed = !!state.collapsedCats["cat_other"];
+            groupsHtml +=
+              '<div class="accordion-group ' + (isOtherCollapsed ? "collapsed" : "") + '">' +
+                '<button type="button" class="accordion-header" data-action="toggle-accordion" data-cat-id="cat_other">' +
+                  '<span>📁 未分類 （' + uncategorizedApps.length + '）</span>' +
+                  '<span>' + (isOtherCollapsed ? "＋" : "ー") + '</span>' +
+                '</button>' +
+                '<div class="accordion-body">' +
+                  '<div class="apps-grid-standard">' +
+                    uncategorizedApps.map(buildStandardCardHtml).join("") +
+                  '</div>' +
+                '</div>' +
+              '</div>';
+          }
+
+          container.innerHTML = groupsHtml;
+          return;
+        }
+
+        container.innerHTML =
+          '<div class="apps-grid-standard">' +
+            filtered.map(buildStandardCardHtml).join("") +
+          '</div>';
+      }
+
+      /* =========================================================
+       * 6. アプリ追加・編集モーダル操作
+       * ========================================================= */
+      function populateAppModalCategorySelect(selectedId) {
+        var sel = document.getElementById("appFormCategory");
+        sel.innerHTML = state.categories.map(function(c) {
+          return '<option value="' + escapeHtml(c.id) + '">' + escapeHtml((c.icon || "📁") + " " + c.name) + '</option>';
+        }).join("");
+        if (selectedId && state.categories.some(function(c) { return c.id === selectedId; })) {
+          sel.value = selectedId;
+        }
+      }
+
+      function renderTagSuggestions() {
+        var container = document.getElementById("existingTagsSuggestions");
+        var allTags = getAllUniqueTags();
+        if (allTags.length === 0) {
+          container.innerHTML = "";
+          return;
+        }
+        container.innerHTML = allTags.slice(0, 12).map(function(tag) {
+          return '<button type="button" class="tag-suggest-btn" data-suggest-tag="' + escapeHtml(tag) + '">＋ #' + escapeHtml(tag) + '</button>';
+        }).join("");
+      }
+
+      function updateUrlTypeIndicator() {
+        var val = document.getElementById("appFormUrl").value.trim();
+        var badge = document.getElementById("urlTypeBadge");
+        if (!val) {
+          badge.textContent = "";
+        } else if (isExternalUrl(val)) {
+          badge.textContent = "↗ 外部URL";
+        } else {
+          badge.textContent = "📄 同一サイト内";
+        }
+      }
+
+      function updateOrderPositionLabel(appId) {
+        var idx = state.apps.findIndex(function(a) { return a.id === appId; });
+        var label = document.getElementById("appOrderPositionLabel");
+        var upBtn = document.getElementById("btnMoveAppUp");
+        var downBtn = document.getElementById("btnMoveAppDown");
+        if (idx === -1) return;
+        label.textContent = (idx + 1) + " / " + state.apps.length;
+        upBtn.disabled = idx === 0;
+        downBtn.disabled = idx === state.apps.length - 1;
+      }
+
+      function openAddAppModal() {
+        document.getElementById("appModalTitle").textContent = "アプリを追加";
+        document.getElementById("appFormId").value = "";
+        var defaultCat = state.selectedCategoryId !== "ALL" ? state.selectedCategoryId : (state.categories[0] ? state.categories[0].id : "");
+        populateAppModalCategorySelect(defaultCat);
+
+        document.getElementById("appFormTitle").value = "";
+        document.getElementById("appFormUrl").value = "";
+        document.getElementById("appFormDesc").value = "";
+        document.getElementById("appFormTags").value = state.selectedTag ? state.selectedTag : "";
+        document.getElementById("appFormTarget").value = "_self";
+        document.getElementById("appFormEmoji").value = "📘";
+        var catObj = getCategoryById(defaultCat);
+        document.getElementById("appFormColor").value = catObj.color || "#2563eb";
+        document.getElementById("appFormPinned").checked = false;
+
+        currentFormImageData = "";
+        document.getElementById("appFormImageInput").value = "";
+        document.getElementById("appFormImagePreviewWrap").style.display = "none";
+        document.getElementById("btnClearAppImage").style.display = "none";
+        document.getElementById("btnDeleteAppInModal").style.display = "none";
+        document.getElementById("btnDuplicateApp").style.display = "none";
+        document.getElementById("reorderBtnsWrap").style.display = "none";
+        document.getElementById("appDeleteConfirmBox").style.display = "none";
+
+        updateUrlTypeIndicator();
+        renderTagSuggestions();
+        document.getElementById("appFormModal").classList.add("active");
+        setTimeout(function() { document.getElementById("appFormTitle").focus(); }, 50);
+      }
+
+      function openEditAppModal(appId) {
+        var app = state.apps.find(function(a) { return a.id === appId; });
+        if (!app) return;
+
+        document.getElementById("appModalTitle").textContent = "編集: " + app.title;
+        document.getElementById("appFormId").value = app.id;
+        populateAppModalCategorySelect(app.categoryId);
+
+        document.getElementById("appFormTitle").value = app.title || "";
+        document.getElementById("appFormUrl").value = app.url || "";
+        document.getElementById("appFormDesc").value = app.desc || "";
+        document.getElementById("appFormTags").value = Array.isArray(app.tags) ? app.tags.join(", ") : "";
+        document.getElementById("appFormTarget").value = app.target || "_self";
+        document.getElementById("appFormEmoji").value = app.emoji || "📘";
+        document.getElementById("appFormColor").value = app.color || "#2563eb";
+        document.getElementById("appFormPinned").checked = !!app.pinned;
+
+        currentFormImageData = app.imageData || "";
+        document.getElementById("appFormImageInput").value = "";
+        if (currentFormImageData) {
+          document.getElementById("appFormImagePreview").src = currentFormImageData;
+          document.getElementById("appFormImagePreviewWrap").style.display = "block";
+          document.getElementById("btnClearAppImage").style.display = "inline-flex";
+        } else {
+          document.getElementById("appFormImagePreviewWrap").style.display = "none";
+          document.getElementById("btnClearAppImage").style.display = "none";
+        }
+
+        document.getElementById("btnDeleteAppInModal").style.display = "inline-flex";
+        document.getElementById("btnDuplicateApp").style.display = "inline-flex";
+        document.getElementById("reorderBtnsWrap").style.display = "flex";
+        document.getElementById("appDeleteConfirmBox").style.display = "none";
+
+        updateUrlTypeIndicator();
+        updateOrderPositionLabel(app.id);
+        renderTagSuggestions();
+        document.getElementById("appFormModal").classList.add("active");
+      }
+
+      function closeAppModal() {
+        document.getElementById("appFormModal").classList.remove("active");
+      }
+
+      function moveAppOrder(appId, delta) {
+        var idx = state.apps.findIndex(function(a) { return a.id === appId; });
+        if (idx === -1) return;
+        var targetIdx = idx + delta;
+        if (targetIdx < 0 || targetIdx >= state.apps.length) return;
+        var temp = state.apps[idx];
+        state.apps[idx] = state.apps[targetIdx];
+        state.apps[targetIdx] = temp;
+        state.sortBy = "order";
+        saveAllData();
+        updateOrderPositionLabel(appId);
+        renderAll();
+        showToast("並び順を変更しました");
+      }
+
+      /* =========================================================
+       * 7. カテゴリ管理モーダル操作
+       * ========================================================= */
+      function renderCategoryManagerList() {
+        var container = document.getElementById("catManageListContainer");
+        container.innerHTML = state.categories.map(function(cat, idx) {
+          var usedCount = state.apps.filter(function(a) { return a.categoryId === cat.id; }).length;
+          return (
+            '<div class="cat-manage-row" data-cat-row-id="' + escapeHtml(cat.id) + '">' +
+              '<input type="text" class="form-control cat-edit-icon" data-id="' + escapeHtml(cat.id) + '" value="' + escapeHtml(cat.icon || "📁") + '" style="width:52px; text-align:center;" />' +
+              '<input type="text" class="form-control cat-edit-name" data-id="' + escapeHtml(cat.id) + '" value="' + escapeHtml(cat.name) + '" style="flex:1; min-width:140px;" />' +
+              '<input type="color" class="color-dot-picker cat-edit-color" data-id="' + escapeHtml(cat.id) + '" value="' + escapeHtml(cat.color || "#2563eb") + '" />' +
+              '<span style="font-size:11.5px; color:var(--text-muted); min-width:48px; text-align:right;">' + usedCount + '件</span>' +
+              '<button type="button" class="btn btn-sm" data-action="cat-up" data-idx="' + idx + '" ' + (idx === 0 ? "disabled" : "") + '>↑</button>' +
+              '<button type="button" class="btn btn-sm" data-action="cat-down" data-idx="' + idx + '" ' + (idx === state.categories.length - 1 ? "disabled" : "") + '>↓</button>' +
+              '<button type="button" class="btn btn-danger btn-sm" data-action="cat-delete" data-id="' + escapeHtml(cat.id) + '">削除</button>' +
+            '</div>'
+          );
+        }).join("");
+      }
+
+      /* =========================================================
+       * 8. ハイブリッド出力（JSONバックアップ ＆ 設定組み込み済み index.html）
+       * ========================================================= */
+      function shareOrDownloadFile(contentStr, fileName, mimeType, toastMsg) {
+        var blob = new Blob([contentStr], { type: mimeType });
+        var isLocalFile = (window.location.protocol === "file:");
+
+        function triggerDownload() {
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement("a");
+          a.href = url;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(function() { URL.revokeObjectURL(url); }, 2000);
+          showToast(toastMsg);
+        }
+
+        if (isLocalFile && typeof File === "function" && navigator.canShare) {
+          try {
+            var fileObj = new File([contentStr], fileName, { type: mimeType });
+            if (navigator.canShare({ files: [fileObj] })) {
+              navigator.share({
+                files: [fileObj],
+                title: fileName
+              }).then(function() {
+                showToast(toastMsg);
+              }).catch(function(err) {
+                if (err && err.name !== "AbortError") triggerDownload();
+              });
+              return;
+            }
+          } catch (e) {}
+        }
+
+        try {
+          triggerDownload();
+        } catch (err) {
+          if (typeof File === "function" && navigator.canShare) {
+            try {
+              var fallbackFile = new File([contentStr], fileName, { type: mimeType });
+              if (navigator.canShare({ files: [fallbackFile] })) {
+                navigator.share({ files: [fallbackFile], title: fileName });
+                return;
+              }
+            } catch (e2) {}
+          }
+          showToast("⚠️ 書き出しに失敗しました");
+        }
+      }
+
+      function exportPortalBackup() {
+        var jsonStr = JSON.stringify(getSerializableState(), null, 2);
+        var dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+        var fileName = "my_apps_backup_" + dateStr + ".json";
+        shareOrDownloadFile(jsonStr, fileName, "application/json", "📦 バックアップを保存しました");
+      }
+
+      function exportBakedHtml() {
+        var rawHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+        var startMarker = "/* __PORTAL_DEFAULTS_START__ */";
+        var endMarker = "/* __PORTAL_DEFAULTS_END__ */";
+        var sIdx = rawHtml.indexOf(startMarker);
+        var eIdx = rawHtml.indexOf(endMarker);
+
+        if (sIdx === -1 || eIdx === -1 || eIdx <= sIdx) {
+          showToast("⚠️ テンプレート領域が見つかりませんでした");
+          return;
+        }
+
+        var bakedSettings = {
+          portalTitle: state.portalTitle || "マイアプリ",
+          portalIcon: state.portalIcon || "🏠",
+          theme: state.theme || "light",
+          viewMode: state.viewMode || "standard",
+          sortBy: state.sortBy || "order"
+        };
+
+        var replacement =
+          startMarker + "\n" +
+          "      var DEFAULT_SETTINGS = " + JSON.stringify(bakedSettings, null, 2) + ";\n\n" +
+          "      var DEFAULT_CATEGORIES = " + JSON.stringify(state.categories, null, 2) + ";\n\n" +
+          "      var DEFAULT_APPS = " + JSON.stringify(state.apps, null, 2) + ";\n" +
+          "      " + endMarker;
+
+        var finalHtml = rawHtml.slice(0, sIdx) + replacement + rawHtml.slice(eIdx + endMarker.length);
+        shareOrDownloadFile(finalHtml, "index.html", "text/html", "🌐 設定済みの index.html を保存しました");
+      }
+
+      /* =========================================================
+       * 9. イベントバインディング
+       * ========================================================= */
+      function initEvents() {
+        document.getElementById("brandResetFilterBtn").addEventListener("click", function() {
+          state.selectedCategoryId = "ALL";
+          state.selectedTag = "";
+          state.searchQuery = "";
+          document.getElementById("searchInput").value = "";
+          document.getElementById("btnClearSearch").style.display = "none";
+          renderAll();
+        });
+
+        document.getElementById("btnOpenAddApp").addEventListener("click", openAddAppModal);
+        document.getElementById("btnCloseAppModal").addEventListener("click", closeAppModal);
+        document.getElementById("btnCancelAppModal").addEventListener("click", closeAppModal);
+
+        document.getElementById("btnOpenCatManager").addEventListener("click", function() {
+          renderCategoryManagerList();
+          document.getElementById("catManagerModal").classList.add("active");
+        });
+        var closeCatModal = function() {
+          document.getElementById("catManagerModal").classList.remove("active");
+        };
+        document.getElementById("btnCloseCatModal").addEventListener("click", closeCatModal);
+        document.getElementById("btnDoneCatModal").addEventListener("click", closeCatModal);
+
+        document.getElementById("btnOpenDataModal").addEventListener("click", function() {
+          document.getElementById("portalCustomIconInput").value = state.portalIcon || "🏠";
+          document.getElementById("portalCustomTitleInput").value = state.portalTitle || "マイアプリ";
+          document.getElementById("portalResetConfirmBox").style.display = "none";
+          document.getElementById("pasteJsonBox").style.display = "none";
+          document.getElementById("dataSettingsModal").classList.add("active");
+        });
+        var closeDataModal = function() {
+          document.getElementById("dataSettingsModal").classList.remove("active");
+        };
+        document.getElementById("btnCloseDataModal").addEventListener("click", closeDataModal);
+        document.getElementById("btnCloseDataFooter").addEventListener("click", closeDataModal);
+
+        // Backdrop click & Escape key to close modals
+        document.querySelectorAll(".modal-backdrop").forEach(function(backdrop) {
+          backdrop.addEventListener("click", function(e) {
+            if (e.target === backdrop) {
+              backdrop.classList.remove("active");
+            }
+          });
+        });
+
+        document.addEventListener("keydown", function(e) {
+          if (e.key === "Escape") {
+            document.querySelectorAll(".modal-backdrop.active").forEach(function(m) {
+              m.classList.remove("active");
+            });
+            return;
+          }
+          var activeTag = document.activeElement ? document.activeElement.tagName : "";
+          var isInputFocused = activeTag === "INPUT" || activeTag === "TEXTAREA" || activeTag === "SELECT";
+          if (!isInputFocused && e.key === "/" && !document.querySelector(".modal-backdrop.active")) {
+            e.preventDefault();
+            document.getElementById("searchInput").focus();
+          }
+        });
+
+        document.getElementById("btnToggleTheme").addEventListener("click", function() {
+          state.theme = state.theme === "dark" ? "light" : "dark";
+          applyThemeUI();
+          saveAllData();
+        });
+
+        var searchInput = document.getElementById("searchInput");
+        var clearBtn = document.getElementById("btnClearSearch");
+        searchInput.addEventListener("input", function() {
+          state.searchQuery = searchInput.value.trim();
+          clearBtn.style.display = state.searchQuery ? "block" : "none";
+          renderAppsMain();
+        });
+        clearBtn.addEventListener("click", function() {
+          searchInput.value = "";
+          state.searchQuery = "";
+          clearBtn.style.display = "none";
+          renderAppsMain();
+        });
+
+        document.getElementById("activeTagFilterChip").addEventListener("click", function() {
+          state.selectedTag = "";
+          renderAll();
+        });
+
+        document.getElementById("sortSelect").addEventListener("change", function(e) {
+          state.sortBy = e.target.value;
+          saveAllData();
+          renderAppsMain();
+        });
+
+        document.querySelectorAll(".view-mode-btn").forEach(function(btn) {
+          btn.addEventListener("click", function() {
+            state.viewMode = btn.getAttribute("data-view-mode");
+            saveAllData();
+            renderAll();
+          });
+        });
+
+        document.getElementById("categoryFilterBar").addEventListener("click", function(e) {
+          var pill = e.target.closest("[data-cat-id]");
+          if (!pill) return;
+          state.selectedCategoryId = pill.getAttribute("data-cat-id");
+          renderCategoryBar();
+          renderAppsMain();
+        });
+
+        document.getElementById("pinnedGridContainer").addEventListener("click", function(e) {
+          var card = e.target.closest("[data-action='launch-app']");
+          if (card) launchApp(card.getAttribute("data-id"), false);
+        });
+
+        document.getElementById("appsDisplayContainer").addEventListener("click", function(e) {
+          var emptyAdd = e.target.closest("[data-action='empty-add-app']");
+          if (emptyAdd) {
+            openAddAppModal();
+            return;
+          }
+          var emptyBackup = e.target.closest("[data-action='empty-open-backup']");
+          if (emptyBackup) {
+            document.getElementById("btnOpenDataModal").click();
+            return;
+          }
+          var resetFilterBtn = e.target.closest("[data-action='reset-filters']");
+          if (resetFilterBtn) {
+            state.selectedCategoryId = "ALL";
+            state.selectedTag = "";
+            state.searchQuery = "";
+            document.getElementById("searchInput").value = "";
+            document.getElementById("btnClearSearch").style.display = "none";
+            renderAll();
+            return;
+          }
+          var tagBtn = e.target.closest("[data-action='filter-tag']");
+          if (tagBtn) {
+            e.stopPropagation();
+            var clickedTag = tagBtn.getAttribute("data-tag");
+            state.selectedTag = (state.selectedTag === clickedTag) ? "" : clickedTag;
+            renderAll();
+            return;
+          }
+          var pinBtn = e.target.closest("[data-action='toggle-pin']");
+          if (pinBtn) {
+            e.stopPropagation();
+            togglePinApp(pinBtn.getAttribute("data-id"));
+            return;
+          }
+          var newTabBtn = e.target.closest("[data-action='launch-new-tab']");
+          if (newTabBtn) {
+            e.stopPropagation();
+            launchApp(newTabBtn.getAttribute("data-id"), true);
+            return;
+          }
+          var editBtn = e.target.closest("[data-action='edit-app']");
+          if (editBtn) {
+            e.stopPropagation();
+            openEditAppModal(editBtn.getAttribute("data-id"));
+            return;
+          }
+          var accHeader = e.target.closest("[data-action='toggle-accordion']");
+          if (accHeader) {
+            var cId = accHeader.getAttribute("data-cat-id");
+            state.collapsedCats[cId] = !state.collapsedCats[cId];
+            saveAllData();
+            renderAppsMain();
+            return;
+          }
+          var launchEl = e.target.closest("[data-action='launch-app']");
+          if (launchEl) {
+            launchApp(launchEl.getAttribute("data-id"), false);
+          }
+        });
+
+        document.getElementById("appFormUrl").addEventListener("input", updateUrlTypeIndicator);
+
+        document.getElementById("existingTagsSuggestions").addEventListener("click", function(e) {
+          var btn = e.target.closest("[data-suggest-tag]");
+          if (!btn) return;
+          var tag = btn.getAttribute("data-suggest-tag");
+          var input = document.getElementById("appFormTags");
+          var current = input.value.split(",").map(function(t) { return t.trim(); }).filter(Boolean);
+          if (current.indexOf(tag) === -1) {
+            current.push(tag);
+            input.value = current.join(", ");
+          }
+        });
+
+        document.getElementById("appFormImageInput").addEventListener("change", function(e) {
+          var file = e.target.files && e.target.files[0];
+          if (!file) return;
+          compressImageFile(file).then(function(dataUrl) {
+            currentFormImageData = dataUrl;
+            document.getElementById("appFormImagePreview").src = dataUrl;
+            document.getElementById("appFormImagePreviewWrap").style.display = "block";
+            document.getElementById("btnClearAppImage").style.display = "inline-flex";
+            showToast("画像を設定しました");
+          }).catch(function() {
+            showToast("画像の読み込みに失敗しました");
+          });
+        });
+
+        document.getElementById("btnClearAppImage").addEventListener("click", function() {
+          currentFormImageData = "";
+          document.getElementById("appFormImageInput").value = "";
+          document.getElementById("appFormImagePreviewWrap").style.display = "none";
+          document.getElementById("btnClearAppImage").style.display = "none";
+        });
+
+        document.getElementById("appForm").addEventListener("submit", function(e) {
+          e.preventDefault();
+          var id = document.getElementById("appFormId").value;
+          var title = document.getElementById("appFormTitle").value.trim();
+          var url = document.getElementById("appFormUrl").value.trim();
+          if (!title || !url) {
+            showToast("アプリ名とリンク先を入力してください");
+            return;
+          }
+          var rawTags = document.getElementById("appFormTags").value;
+          var tags = rawTags.split(",").map(function(t) { return t.trim(); }).filter(Boolean);
+
+          if (id) {
+            var existing = state.apps.find(function(a) { return a.id === id; });
+            if (existing) {
+              existing.title = title;
+              existing.categoryId = document.getElementById("appFormCategory").value;
+              existing.url = url;
+              existing.desc = document.getElementById("appFormDesc").value.trim();
+              existing.tags = tags;
+              existing.target = document.getElementById("appFormTarget").value;
+              existing.emoji = document.getElementById("appFormEmoji").value.trim() || "📘";
+              existing.color = document.getElementById("appFormColor").value;
+              existing.pinned = document.getElementById("appFormPinned").checked;
+              existing.imageData = currentFormImageData || "";
+            }
+            showToast("更新しました");
+          } else {
+            state.apps.push({
+              id: "app_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 5),
+              title: title,
+              categoryId: document.getElementById("appFormCategory").value,
+              url: url,
+              desc: document.getElementById("appFormDesc").value.trim(),
+              tags: tags,
+              target: document.getElementById("appFormTarget").value,
+              emoji: document.getElementById("appFormEmoji").value.trim() || "📘",
+              color: document.getElementById("appFormColor").value,
+              pinned: document.getElementById("appFormPinned").checked,
+              imageData: currentFormImageData || "",
+              launchCount: 0,
+              lastOpenedAt: null,
+              createdAt: new Date().toISOString()
+            });
+            showToast("追加しました");
+          }
+
+          saveAllData();
+          closeAppModal();
+          renderAll();
+        });
+
+        document.getElementById("btnMoveAppUp").addEventListener("click", function() {
+          var id = document.getElementById("appFormId").value;
+          if (id) moveAppOrder(id, -1);
+        });
+        document.getElementById("btnMoveAppDown").addEventListener("click", function() {
+          var id = document.getElementById("appFormId").value;
+          if (id) moveAppOrder(id, 1);
+        });
+
+        document.getElementById("btnDuplicateApp").addEventListener("click", function() {
+          document.getElementById("appFormId").value = "";
+          var titleInput = document.getElementById("appFormTitle");
+          titleInput.value = titleInput.value.trim() + " (コピー)";
+          document.getElementById("appModalTitle").textContent = "アプリを複製して追加";
+          document.getElementById("btnDeleteAppInModal").style.display = "none";
+          document.getElementById("btnDuplicateApp").style.display = "none";
+          document.getElementById("reorderBtnsWrap").style.display = "none";
+          document.getElementById("appDeleteConfirmBox").style.display = "none";
+          showToast("複製モードに切り替えました。「保存する」で追加されます");
+        });
+
+        document.getElementById("btnDeleteAppInModal").addEventListener("click", function() {
+          document.getElementById("appDeleteConfirmBox").style.display = "block";
+        });
+        document.getElementById("btnCancelDeleteApp").addEventListener("click", function() {
+          document.getElementById("appDeleteConfirmBox").style.display = "none";
+        });
+        document.getElementById("btnConfirmDeleteApp").addEventListener("click", function() {
+          var id = document.getElementById("appFormId").value;
+          if (!id) return;
+          state.apps = state.apps.filter(function(a) { return a.id !== id; });
+          saveAllData();
+          closeAppModal();
+          renderAll();
+          showToast("削除しました");
+        });
+
+        document.getElementById("btnAddCategory").addEventListener("click", function() {
+          var name = document.getElementById("newCatNameInput").value.trim();
+          var icon = document.getElementById("newCatIconInput").value.trim() || "📂";
+          var color = document.getElementById("newCatColorInput").value || "#2563eb";
+          if (!name) {
+            showToast("カテゴリ名を入力してください");
+            return;
+          }
+          state.categories.push({
+            id: "cat_" + Date.now().toString(36),
+            name: name,
+            icon: icon,
+            color: color
+          });
+          document.getElementById("newCatNameInput").value = "";
+          saveAllData();
+          renderCategoryManagerList();
+          renderAll();
+          showToast("カテゴリを追加しました");
+        });
+
+        var catListEl = document.getElementById("catManageListContainer");
+        catListEl.addEventListener("input", function(e) {
+          var id = e.target.getAttribute("data-id");
+          if (!id) return;
+          var cat = state.categories.find(function(c) { return c.id === id; });
+          if (!cat) return;
+          if (e.target.classList.contains("cat-edit-name")) {
+            cat.name = e.target.value;
+          } else if (e.target.classList.contains("cat-edit-icon")) {
+            cat.icon = e.target.value;
+          } else if (e.target.classList.contains("cat-edit-color")) {
+            cat.color = e.target.value;
+          }
+          saveAllData();
+          renderAll();
+        });
+
+        catListEl.addEventListener("click", function(e) {
+          var upBtn = e.target.closest("[data-action='cat-up']");
+          if (upBtn) {
+            var idx = Number(upBtn.getAttribute("data-idx"));
+            if (idx > 0) {
+              var tmp = state.categories[idx - 1];
+              state.categories[idx - 1] = state.categories[idx];
+              state.categories[idx] = tmp;
+              saveAllData();
+              renderCategoryManagerList();
+              renderAll();
+            }
+            return;
+          }
+          var downBtn = e.target.closest("[data-action='cat-down']");
+          if (downBtn) {
+            var dIdx = Number(downBtn.getAttribute("data-idx"));
+            if (dIdx < state.categories.length - 1) {
+              var tmp2 = state.categories[dIdx + 1];
+              state.categories[dIdx + 1] = state.categories[dIdx];
+              state.categories[dIdx] = tmp2;
+              saveAllData();
+              renderCategoryManagerList();
+              renderAll();
+            }
+            return;
+          }
+          var delBtn = e.target.closest("[data-action='cat-delete']");
+          if (delBtn) {
+            if (state.categories.length <= 1) {
+              showToast("最低1つのカテゴリが必要です");
+              return;
+            }
+            var delId = delBtn.getAttribute("data-id");
+            state.categories = state.categories.filter(function(c) { return c.id !== delId; });
+            var fallbackCatId = state.categories[0].id;
+            state.apps.forEach(function(a) {
+              if (a.categoryId === delId) a.categoryId = fallbackCatId;
+            });
+            if (state.selectedCategoryId === delId) state.selectedCategoryId = "ALL";
+            saveAllData();
+            renderCategoryManagerList();
+            renderAll();
+            showToast("カテゴリを削除しました");
+          }
+        });
+
+        document.getElementById("btnSavePortalTitle").addEventListener("click", function() {
+          state.portalIcon = document.getElementById("portalCustomIconInput").value.trim() || "🏠";
+          state.portalTitle = document.getElementById("portalCustomTitleInput").value.trim() || "マイアプリ";
+          saveAllData();
+          syncDocumentBranding();
+          renderAll();
+          showToast("タイトルを変更しました");
+        });
+
+        document.getElementById("btnExportBakedHtml").addEventListener("click", exportBakedHtml);
+        document.getElementById("btnExportPortalJson").addEventListener("click", exportPortalBackup);
+
+        document.getElementById("btnCopyPortalJson").addEventListener("click", function() {
+          var str = JSON.stringify(getSerializableState(), null, 2);
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(str).then(function() {
+              showToast("📋 コピーしました");
+            });
+          } else {
+            var ta = document.createElement("textarea");
+            ta.value = str;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy");
+            document.body.removeChild(ta);
+            showToast("📋 コピーしました");
+          }
+        });
+
+        document.getElementById("btnTogglePasteJson").addEventListener("click", function() {
+          var box = document.getElementById("pasteJsonBox");
+          box.style.display = box.style.display === "none" ? "block" : "none";
+          if (box.style.display === "block") {
+            document.getElementById("pasteJsonTextarea").focus();
+          }
+        });
+        document.getElementById("btnCancelPasteJson").addEventListener("click", function() {
+          document.getElementById("pasteJsonBox").style.display = "none";
+          document.getElementById("pasteJsonTextarea").value = "";
+        });
+        document.getElementById("btnApplyPasteJson").addEventListener("click", function() {
+          var raw = document.getElementById("pasteJsonTextarea").value.trim();
+          if (!raw) {
+            showToast("JSON文字列を貼り付けてください");
+            return;
+          }
+          try {
+            var parsed = JSON.parse(raw);
+            if (applyLoadedData(parsed)) {
+              saveAllData();
+              applyThemeUI();
+              syncDocumentBranding();
+              renderAll();
+              document.getElementById("pasteJsonTextarea").value = "";
+              document.getElementById("pasteJsonBox").style.display = "none";
+              closeDataModal();
+              showToast("✅ 復元しました");
+            } else {
+              showToast("⚠️ データ形式が正しくありません");
+            }
+          } catch (e) {
+            showToast("⚠️ JSONの解析に失敗しました");
+          }
+        });
+
+        document.getElementById("inputImportPortalJson").addEventListener("change", function(e) {
+          var file = e.target.files && e.target.files[0];
+          if (!file) return;
+          var reader = new FileReader();
+          reader.onload = function(ev) {
+            try {
+              var parsed = JSON.parse(ev.target.result);
+              if (applyLoadedData(parsed)) {
+                saveAllData();
+                applyThemeUI();
+                syncDocumentBranding();
+                renderAll();
+                closeDataModal();
+                showToast("✅ 復元しました");
+              } else {
+                showToast("⚠️ 読み込めないファイルです");
+              }
+            } catch (err) {
+              showToast("⚠️ JSONの解析に失敗しました");
+            }
+          };
+          reader.readAsText(file);
+          e.target.value = "";
+        });
+
+        document.getElementById("btnRequestPortalReset").addEventListener("click", function() {
+          document.getElementById("portalResetConfirmBox").style.display = "block";
+        });
+        document.getElementById("btnCancelPortalReset").addEventListener("click", function() {
+          document.getElementById("portalResetConfirmBox").style.display = "none";
+        });
+        document.getElementById("btnConfirmPortalReset").addEventListener("click", function() {
+          state.portalTitle = DEFAULT_SETTINGS.portalTitle || "マイアプリ";
+          state.portalIcon = DEFAULT_SETTINGS.portalIcon || "🏠";
+          state.categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+          state.apps = JSON.parse(JSON.stringify(DEFAULT_APPS));
+          state.selectedCategoryId = "ALL";
+          state.selectedTag = "";
+          saveAllData();
+          syncDocumentBranding();
+          renderAll();
+          closeDataModal();
+          showToast("リセットしました");
+        });
+      }
+
+      /* =========================================================
+       * 10. 起動処理
+       * ========================================================= */
+      initEvents();
+      loadAllData();
+      applyThemeUI();
+      syncDocumentBranding();
+      renderAll();
+    })();
+  </script>
+</body>
+</html>
